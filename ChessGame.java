@@ -27,7 +27,7 @@ public class ChessGame {
             while(!color.equals("black") || !color.equals("white")) { // make sure the user enters a valid color
                 System.out.println("'" + color + "' is not a valid color.'");
                 System.out.println("Please choose either black or white.");
-                String color = this.gameUI.askUser("So, which color do you want your pieces to be ?").trim().toLowerCase();
+                color = this.gameUI.askUser("So, which color do you want your pieces to be ?").trim().toLowerCase();
             }
             if(color.equals("black")) {
                 this.black = new HumanPlayer(false);

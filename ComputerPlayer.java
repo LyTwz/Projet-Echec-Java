@@ -8,11 +8,7 @@ public class ComputerPlayer extends Player {
 
     // implement chooseMove()
 
-    public String chooseMove(GameUI gameUI) { // todo --> current version is actually completely wrong
-        Random r = new Random();
-        int index = r.nextInt(16); // choose a random a 'Piece' to move 
-        String[] nextMoves = this.getPiece(index).getNextMoves().split("\\;"); 
-        return nextMoves[r.nextInt(nextMoves.length)]; // choose a random possible move
-        
+    public String chooseMove(GameUI gameUI) { // todo 
+        return null;
     }
 }

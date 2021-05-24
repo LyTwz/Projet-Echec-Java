@@ -4,5 +4,6 @@ public abstract class GameUI {
         // nothing special here
     }
 
+    // public abstract String display(String content);
     public abstract String askUser(String question);
 }

@@ -16,11 +16,11 @@ public class Board {
     }
 
     // getters
-    /*
+    
     public Cell[] getCells() { // this getter was written only for testing purposes, not to be included in production
         return this.cells;
     }
-    */
+    
 
     // functions used to manipulate this.cells
 
@@ -80,6 +80,24 @@ public class Board {
 
     public static boolean isCorrectPosition(String pos) {
         return ((int) pos.charAt(0) >= 97 && (int) pos.charAt(0) <= 104) && (Integer.parseInt(pos.substring(1)) >= 1 && Integer.parseInt(pos.substring(1)) <= 8);
+    }
+
+    public static boolean isCorrectPosition(int col, int line) {
+        return col >= 1 && col <= 8 && line >= 1 && line <= 8;
+    }
+
+    public static String intToPosition(int col, int line) {
+        return isCorrectPosition(col, line) ?  Character.toString((char) 96 + col) + String.valueOf(line) : null;
+    }
+
+    public static int[] positionToInt(String pos) {
+        int[] p = new int[2];
+        if(isCorrectPosition(pos)) {
+            p[0] = -96 + (int) pos.charAt(0);
+            p[1] = Integer.parseInt(pos.substring(1));
+            return p;
+        }
+        return null;
     }
 
 }
