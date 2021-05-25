@@ -1,7 +1,6 @@
 public abstract class Piece {
 
     private final boolean color; // false = black, true = white
-    // private final String role;
 
     private int state; // 0 = unused, 1 = currently used, 2 = dead
     private String position; // position on the board, corresponding to a cell
@@ -9,8 +8,6 @@ public abstract class Piece {
     public Piece(boolean clr, int stt) { // default and only constructor for the 'Piece' class
         this.color = clr;
         this.state = stt;
-        // this.role = "Unknown"; // to be specified in each of the child classes
-        // /!\ -> it doesn't make sense to create a piece without a specific role, as that doesn't exist in Chess
     }
 
     public Piece(boolean clr, int stt, String pos) {
@@ -23,12 +20,6 @@ public abstract class Piece {
     public boolean getColor() {
         return this.color;
     }
-
-    /*
-    public String getRole() {
-        return this.role;
-    }
-    */
 
     public int getState() {
         return this.state;
@@ -56,6 +47,6 @@ public abstract class Piece {
 
     // to be implemented by children
 
-    public abstract String getNextMoves();
+    public abstract String[] getNextMoves();
 
 }

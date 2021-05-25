@@ -10,8 +10,8 @@ public class Knight extends Piece {
 
     // other functions --> 
 
-    public String getNextMoves() { // todo 
-        String nextMoves = null;
+    public String[] getNextMoves() { // todo 
+        String[] nextMoves = null;
         return nextMoves;
     }
 }

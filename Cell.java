@@ -1,16 +1,20 @@
 public class Cell {
 
     private final String position; 
+
+    private final Boolean color;
     // this attribute really shouldn't be changed once the object has been instantiated
 
     private Piece piece; 
 
-    public Cell(String pos) {
+    public Cell(String pos, Boolean clr) {
         this.position = ((int) pos.charAt(0) >= 97 && (int) pos.charAt(0) <= 104) && (Integer.parseInt(pos.substring(1)) >= 1 && Integer.parseInt(pos.substring(1)) <= 8) ? pos : null;
+        this.color = clr;
+        this.piece = null;
     }
 
-    public Cell(String pos, Piece p) {
-        this(pos);
+    public Cell(String pos, Boolean clr, Piece p) {
+        this(pos, clr);
         this.piece = p;
     }
 
@@ -24,6 +28,10 @@ public class Cell {
         return this.piece;
     }
 
+    public Boolean getColor() {
+        return this.color;
+    }
+
     // setters 
 
     // no setter for position, as it's a final attribute
@@ -31,6 +39,10 @@ public class Cell {
     public void setPiece(Piece p) {
         // make sure we're not affecting an uninstantiated object to this.piece
         this.piece = p != null ? p : this.piece;
+    }
+
+    public String toString() {
+        return "Cell [position=" + this.position + ", color=" + this.color + ", piece=" + this.piece + "]";
     }
 
 }

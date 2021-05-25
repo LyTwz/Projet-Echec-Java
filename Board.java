@@ -8,10 +8,13 @@ public class Board {
         this.cells = new Cell[NB_CELLS];
         int col = 97;
         int line = 1;
+        Boolean color = false; // false is black, true is white
         for(int i = 0; i < NB_CELLS; i++) {
-            this.cells[i] = new Cell(Character.toString((char) col) + String.valueOf(line));
+            this.cells[i] = new Cell(Character.toString((char) col) + String.valueOf(line), color);
+            // System.out.println(this.cells[i]);
             line = line >= 8 ? 1 : line + 1;
             col = line == 1 ? col + 1 : col;
+            color = line == 1 ? color : !color;
         }
     }
 
@@ -100,4 +103,71 @@ public class Board {
         return null;
     }
 
+    public static String farthestLeftUpDiagonally(String pos) {
+        if(!isCorrectPosition(pos)) {
+            return null;
+        }
+        int col = positionToInt(pos)[0];
+        int line = positionToInt(pos)[1];
+        int fcol = col;
+        int fline = line;
+        while(isCorrectPosition(col, line)) {
+            fcol = col;
+            fline = line;
+            col--;
+            line++;
+        }
+        return Board.intToPosition(fcol, fline);
+    }
+
+    public static String farthestLeftDownDiagonally(String pos) {
+        if(!isCorrectPosition(pos)) {
+            return null;
+        }
+        int col = positionToInt(pos)[0];
+        int line = positionToInt(pos)[1];
+        int fcol = col;
+        int fline = line;
+        while(isCorrectPosition(col, line)) {
+            fcol = col;
+            fline = line;
+            col--;
+            line--;
+        }
+        return Board.intToPosition(fcol, fline);
+    }
+
+    public static String farthestRightUpDiagonally(String pos) {
+        if(!isCorrectPosition(pos)) {
+            return null;
+        }
+        int col = positionToInt(pos)[0];
+        int line = positionToInt(pos)[1];
+        int fcol = col;
+        int fline = line;
+        while(isCorrectPosition(col, line)) {
+            fcol = col;
+            fline = line;
+            col++;
+            line++;
+        }
+        return Board.intToPosition(fcol, fline);
+    }
+
+    public static String farthestRightDownDiagonally(String pos) {
+        if(!isCorrectPosition(pos)) {
+            return null;
+        }
+        int col = positionToInt(pos)[0];
+        int line = positionToInt(pos)[1];
+        int fcol = col;
+        int fline = line;
+        while(isCorrectPosition(col, line)) {
+            fcol = col;
+            fline = line;
+            col++;
+            line--;
+        }
+        return Board.intToPosition(fcol, fline);
+    }
 }
