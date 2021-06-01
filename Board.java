@@ -1,17 +1,18 @@
 public class Board {
 
     public static final int NB_CELLS = 64; // number of cells on a chess board
+    public static final int NB_COLUMNS = 8;
+    public static final int NB_LINES = 8;
 
     private Cell[] cells;
 
     public Board() {
         this.cells = new Cell[NB_CELLS];
-        int col = 97;
+        int col = 1;
         int line = 1;
         Boolean color = false; // false is black, true is white
         for(int i = 0; i < NB_CELLS; i++) {
-            this.cells[i] = new Cell(Character.toString((char) col) + String.valueOf(line), color);
-            // System.out.println(this.cells[i]);
+            this.cells[i] = new Cell(intToPosition(col, line), color);
             line = line >= 8 ? 1 : line + 1;
             col = line == 1 ? col + 1 : col;
             color = line == 1 ? color : !color;
@@ -23,7 +24,16 @@ public class Board {
     public Cell[] getCells() { // this getter was written only for testing purposes, not to be included in production
         return this.cells;
     }
+
+    public Cell getCell(String pos) {
+        if(!isCorrectPosition(pos)) { return null; }
+        return this.cells[calcIndexFromPosition(pos)];
+    }
     
+    public Cell getCell(int col, int line) {
+        if(!isCorrectPosition(col, line)) { return null;}
+        return this.cells[calcIndexFromPosition(intToPosition(col, line))];
+    }
 
     // functions used to manipulate this.cells
 
@@ -96,8 +106,8 @@ public class Board {
     public static int[] positionToInt(String pos) {
         int[] p = new int[2];
         if(isCorrectPosition(pos)) {
-            p[0] = -96 + (int) pos.charAt(0);
-            p[1] = Integer.parseInt(pos.substring(1));
+            p[0] = -96 + (int) pos.charAt(0); // column
+            p[1] = Integer.parseInt(pos.substring(1)); // line
             return p;
         }
         return null;

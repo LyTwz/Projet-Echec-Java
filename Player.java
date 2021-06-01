@@ -1,7 +1,8 @@
 public abstract class Player {
     
+    private int score;
     private final boolean color; // cannot change the 'Player's color after it's been instantiated
-    private Piece[] pieces;
+    private Piece[] pieces; // pawns start at index 7
 
     public static final int NB_PIECES = 16;
     public static final int NB_PAWNS = 8;
@@ -21,7 +22,8 @@ public abstract class Player {
         this.pieces[6] = new Rook(clr, 0);
         this.pieces[7] = new Rook(clr, 0);
         // initialise each 'Piece' that is supposed to be a 'Pawn' (the last 8 ones)
-        for(int i = Player.NB_PIECES - Player.NB_PAWNS - 1; i < Player.NB_PAWNS; i++) {
+        for(int i = Player.NB_PIECES - Player.NB_PAWNS; i < Player.NB_PIECES; i++) {
+            // System.out.println("index " + i);
             this.pieces[i] = new Pawn(clr, 0);
         }
     }
@@ -29,23 +31,19 @@ public abstract class Player {
     // getter
 
     public Piece getPiece(int index) {
-        return index >= 0 && index < 16 ? this.pieces[index] : null;
+        return index >= 0 && index < Player.NB_PIECES ? this.pieces[index] : null;
     }
-    
-    /*
-    public Piece getPiece(int stt, String pos) {
-        if(stt >= 0 && stt <= 2 && Board.isCorrectPosition(pos)) {
-            for(int i = 0; i < Player.NB_PIECES; i++) {
-                if(this.pieces[i].getState() == stt && this.pieces[i].getPosition().equals(pos)) { // if the current 'Piece's state & position match the provided values
-                    return this.pieces[i];
-                }
-            }
-        }
-        return null;
-    }*/
 
     public boolean getColor() {
         return this.color;
+    }
+
+    public int getScore() {
+        return this.score;
+    }
+
+    public void setScore(int s) {
+        this.score = s;
     }
 
     // other functions -->

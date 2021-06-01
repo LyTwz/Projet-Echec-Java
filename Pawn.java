@@ -15,10 +15,12 @@ public class Pawn extends Piece {
 
     public Pawn(boolean clr, int stt) {
         super(clr, stt);
+        this.setRepresentation(clr ? Piece.WHITE_PAWN_UNICODE : Piece.BLACK_PAWN_UNICODE);
     }
 
     public Pawn(boolean clr, int stt, String pos) {
         super(clr, stt, pos);
+        this.setRepresentation("P");
     }
 
     // other functions --> 

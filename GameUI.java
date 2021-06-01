@@ -4,6 +4,7 @@ public abstract class GameUI {
         // nothing special here
     }
 
-    // public abstract String display(String content);
+    public abstract void drawUI(Board b);
+    public abstract void alert(String message);
     public abstract String askUser(String question);
 }

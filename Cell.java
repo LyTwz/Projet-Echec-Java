@@ -3,6 +3,7 @@ public class Cell {
     private final String position; 
 
     private final Boolean color;
+
     // this attribute really shouldn't be changed once the object has been instantiated
 
     private Piece piece; 

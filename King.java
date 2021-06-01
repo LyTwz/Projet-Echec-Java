@@ -4,10 +4,12 @@ public class King extends Piece {
     
     public King(boolean clr, int stt) {
         super(clr, stt);
+        this.setRepresentation(clr ? Piece.WHITE_KING_UNICODE : Piece.BLACK_KING_UNICODE);
     }
 
     public King(boolean clr, int stt, String pos) {
         super(clr, stt, pos);
+        this.setRepresentation("K");
     }
 
     // other functions --> 

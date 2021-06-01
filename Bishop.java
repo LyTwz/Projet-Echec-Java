@@ -1,11 +1,13 @@
-public class Bishop extends Piece{
+public class Bishop extends Piece {
     
     public Bishop(boolean clr, int stt) {
         super(clr, stt);
+        this.setRepresentation(clr ? Piece.WHITE_BISHOP_UNICODE : Piece.BLACK_BISHOP_UNICODE);
     }
 
     public Bishop(boolean clr, int stt, String pos) {
         super(clr, stt, pos);
+        this.setRepresentation("B");
     }
 
     // other functions --> 

@@ -2,10 +2,12 @@ public class Queen extends Piece {
 
     public Queen(boolean clr, int stt) {
         super(clr, stt);
+        this.setRepresentation(clr ? Piece.WHITE_QUEEN_UNICODE : Piece.BLACK_QUEEN_UNICODE);
     }
 
     public Queen(boolean clr, int stt, String pos) {
         super(clr, stt, pos);
+        this.setRepresentation("Q");
     }
 
     // other functions --> 
