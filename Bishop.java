@@ -42,4 +42,9 @@ public class Bishop extends Piece {
         moves = diagonalLeft + diagonalRight.substring(0, diagonalRight.length()-1);
         return moves.split(",");
     }
+
+    @Override
+    public String toString() {
+        return "Bishop[state=" + this.getState() + ", position=" + this.getPosition() + "]";
+    }
 }

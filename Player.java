@@ -13,13 +13,13 @@ public abstract class Player {
         this.color = clr;
         this.pieces = new Piece[Player.NB_PIECES];
         // init all the player's 'Piece's
-        this.pieces[0] = new King(clr, 0);
-        this.pieces[1] = new Queen(clr, 0);
-        this.pieces[2] = new Knight(clr, 0);
-        this.pieces[3] = new Knight(clr, 0);
-        this.pieces[4] = new Bishop(clr, 0);
+        this.pieces[0] = new Rook(clr, 0);
+        this.pieces[1] = new Knight(clr, 0);
+        this.pieces[2] = new Bishop(clr, 0);
+        this.pieces[3] = new Queen(clr, 0);
+        this.pieces[4] = new King(clr, 0);
         this.pieces[5] = new Bishop(clr, 0);
-        this.pieces[6] = new Rook(clr, 0);
+        this.pieces[6] = new Knight(clr, 0);
         this.pieces[7] = new Rook(clr, 0);
         // initialise each 'Piece' that is supposed to be a 'Pawn' (the last 8 ones)
         for(int i = Player.NB_PIECES - Player.NB_PAWNS; i < Player.NB_PIECES; i++) {
@@ -32,6 +32,10 @@ public abstract class Player {
 
     public Piece getPiece(int index) {
         return index >= 0 && index < Player.NB_PIECES ? this.pieces[index] : null;
+    }
+
+    public Piece[] getPieces() {
+        return this.pieces;
     }
 
     public boolean getColor() {
@@ -47,6 +51,16 @@ public abstract class Player {
     }
 
     // other functions -->
+
+    public String gameStatus() {
+        String status = "";
+        int count = 0;
+        for(Piece p : this.pieces) {
+            status += p.getState() == 1 ? p.getStatus() + "\n" : "";
+            count = count < 4 ? count + 1 : 0;
+        }
+        return status;
+    }
 
     public abstract String chooseMove(GameUI gameUI); // returns a string formatted like so -> <startPos>-<nextPos> -> ex : a8-b5
 }

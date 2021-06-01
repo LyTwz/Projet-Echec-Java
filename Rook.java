@@ -31,4 +31,9 @@ public class Rook extends Piece {
         } 
         return moves.substring(0, moves.length() - 1).split(",");
     }
+
+    @Override
+    public String toString() {
+        return "Rook[state=" + this.getState() + ", position=" + this.getPosition() + "]";
+    }
 }

@@ -64,6 +64,7 @@ public class TextGameUI extends GameUI {
                 System.out.println("    a  b  c  d  e  f  g  h ");
             }
         }
+        System.out.println();
     }
 
     public void drawUI(Board b) {
@@ -75,7 +76,7 @@ public class TextGameUI extends GameUI {
         System.out.print(question + " ");
         String answer = "";
         answer = this.input.nextLine();
-        return answer;
+        return answer.trim().toLowerCase();
     }
 
     public void alert(String message) {

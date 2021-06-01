@@ -32,4 +32,9 @@ public class King extends Piece {
     return final_string.split(",");
     }
 
+    @Override
+    public String toString() {
+        return "King[state=" + this.getState() + ", position=" + this.getPosition() + "]";
+    }
+
 }

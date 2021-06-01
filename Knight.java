@@ -30,4 +30,9 @@ public class Knight extends Piece {
     }
     return final_string.split(",");
     }
+
+    @Override
+    public String toString() {
+        return "Knight[state=" + this.getState() + ", position=" + this.getPosition() + "]";
+    }
 }

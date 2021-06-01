@@ -55,17 +55,21 @@ public class ChessGame {
         // default
         // start by positioning all the pawns
         int col = 1;
-        int line = 2; // white
+        int line = 1; // white
         for(int i = 0; i < Player.NB_PIECES - 8; i++) {
             this.white.getPiece(i).setState(1);
+            this.white.getPiece(i+8).setState(1);
             this.board.addPiece(this.white.getPiece(i), Board.intToPosition(col, line));
+            this.board.addPiece(this.white.getPiece(i+8), Board.intToPosition(col, line+1));
             col++;
         }
         col = 1;
-        line = 7; // black
+        line = 8; // black
         for(int i = 0; i < Player.NB_PIECES - 8; i++) {
             this.black.getPiece(i).setState(1);
+            this.black.getPiece(i+8).setState(1);
             this.board.addPiece(this.black.getPiece(i), Board.intToPosition(col, line));
+            this.board.addPiece(this.black.getPiece(i+8), Board.intToPosition(col, line-1));
             col++;
         }
         // System.out.println(Arrays.toString(this.board.getCells()));
@@ -75,7 +79,10 @@ public class ChessGame {
 
     public int play() { // returns either -1 --> error, 0 --> don't save, 1 --> save
         positionPieces();
-        this.gameUI.drawUI(this.board);
+        while(this.gameState == true) {
+            this.gameUI.drawUI(this.board);
+            String move = this.white.chooseMove(this.gameUI);
+        }
         return 0;
     }
 

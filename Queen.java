@@ -59,4 +59,9 @@ public class Queen extends Piece {
         } 
         return moves.substring(0, moves.length() - 1).split(",");
     }
+
+    @Override
+    public String toString() {
+        return "Queen[state=" + this.getState() + ", position=" + this.getPosition() + "]";
+    }
 }
