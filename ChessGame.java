@@ -51,6 +51,50 @@ public class ChessGame {
         return this.winnerColor;
     }
 
+    public boolean isWhiteChecked(){
+        String pos = "";
+        String[] test;
+        Piece[] p1 = this.white.getPieces();
+        for(Piece z : p1){
+            if(z.getType() == "King"){
+                pos = z.getPosition();
+            }
+        }
+
+        Piece[] p = this.black.getPieces();
+        for(Piece i : p ){
+            test = i.getNextMoves();
+            for(int w = 0; w<test.length;w++){
+                if(test[w] == pos){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isBlackChecked(){
+        String pos = "";
+        String[] test;
+        Piece[] p1 = this.black.getPieces();
+        for(Piece z : p1){
+            if(z.getType() == "King"){
+                pos = z.getPosition();
+            }
+        }
+
+        Piece[] p = this.white.getPieces();
+        for(Piece i : p ){
+            test = i.getNextMoves();
+            for(int w = 0; w<test.length;w++){
+                if(test[w] == pos){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void positionPieces() {
         // default
         // start by positioning all the pawns
