@@ -16,7 +16,7 @@ public class King extends Piece {
 
     @Override
     public String[] getNextMoves() {
-        String final_string = "";
+        String string = "";
         String pos = this.getPosition();
         int [] convertedPos = Board.positionToInt(pos);
         int a = convertedPos[0];
@@ -26,10 +26,11 @@ public class King extends Piece {
             int posA = a + possibleMoves[i][0];
             System.out.println(i);
             int posB = b + possibleMoves[i][1];
-            final_string += Board.intToPosition(posA,posB) + ",";
+            string += Board.intToPosition(posA,posB) + ",";
 
     }
-    return final_string.split(",");
+    String[] final_string = string.split(",");
+    return final_string;
     }
 
 }

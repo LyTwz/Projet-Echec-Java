@@ -4,13 +4,9 @@ public class Pawn extends Piece {
 
     private static final int[][] firstMovesBlack = { {0,-1}, {0,-2} };
 
-    private static final int[][] nextMovesWhite = { {0,1} };
+    private static final int[][] nextMovesWhite = { {0,1}, {1,1}, {-1,1}};
 
-    private static final int[][] nextMovesBlack = { {0,-1} };
-
-    private static final int[][] eatMovesWhite = { {1,1}, {-1,1} };
-
-    private static final int[][] eatMovesBlack = { {1,-1},{-1,-1} };
+    private static final int[][] nextMovesBlack = { {0,-1},{1,-1},{-1,-1} };
 
 
     public Pawn(boolean clr, int stt) {
@@ -26,7 +22,7 @@ public class Pawn extends Piece {
     // other functions --> 
 
     public String[] getNextMoves() { // todo 
-        String final_string = "";
+        String string = "";
         String pos = this.getPosition();
         String col = pos.substring(1,2);
         int col2 = Integer.valueOf(col);
@@ -39,7 +35,7 @@ public class Pawn extends Piece {
                 int posA = a + firstMovesWhite[i][0];
                 System.out.println(i);
                 int posB = b + firstMovesWhite[i][1];
-                final_string += Board.intToPosition(posA,posB) + ",";
+                string += Board.intToPosition(posA,posB) + ",";
             }
         }
         if(this.getColor() == false && col2 == 7){
@@ -47,7 +43,7 @@ public class Pawn extends Piece {
                 int posA = a + firstMovesBlack[i][0];
                 System.out.println(i);
                 int posB = b + firstMovesBlack[i][1];
-                final_string += Board.intToPosition(posA,posB) + ",";
+                string += Board.intToPosition(posA,posB) + ",";
             }
         }
         if(this.getColor() == true && col2 != 7){
@@ -55,7 +51,7 @@ public class Pawn extends Piece {
                 int posA = a + nextMovesWhite[i][0];
                 System.out.println(i);
                 int posB = b + nextMovesWhite[i][1];
-                final_string += Board.intToPosition(posA,posB) + ",";
+                string += Board.intToPosition(posA,posB) + ",";
             }
         }
 
@@ -64,13 +60,13 @@ public class Pawn extends Piece {
                 int posA = a + nextMovesBlack[i][0];
                 System.out.println(i);
                 int posB = b + nextMovesBlack[i][1];
-                final_string += Board.intToPosition(posA,posB) + ",";
+                string += Board.intToPosition(posA,posB) + ",";
             }
         
         }
 
-        
-        return final_string.split(",");
+        String[] final_string = string.split(",");
+        return final_string;
 
 
     }
