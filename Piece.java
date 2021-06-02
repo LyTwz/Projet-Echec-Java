@@ -44,6 +44,14 @@ public abstract class Piece {
         return this.position;
     }
 
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+
+    public String getStatus() {
+        return this.state == 1 ? (this.getType() + " at " + this.getPosition()) : (this.state == 0 ? "Unused " + this.getType() : "Captured " + this.getType());
+    }
+
     // setters
 
     // it doesn't make sense to 'setColor' or 'setRole', 
