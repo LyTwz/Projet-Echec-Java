@@ -56,6 +56,10 @@ public class ChessGame {
         // start by positioning all the pawns
         int col = 1;
         int line = 1; // white
+        Piece[] p = this.white.getPieces();
+        for(Piece i : p) {
+            i.getNextMoves();
+        }
         for(int i = 0; i < Player.NB_PIECES - 8; i++) {
             this.white.getPiece(i).setState(1);
             this.white.getPiece(i+8).setState(1);
