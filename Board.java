@@ -105,6 +105,7 @@ public class Board {
 
     public static int[] positionToInt(String pos) {
         int[] p = new int[2];
+        System.out.println("positionToInt() -> pos = " + pos);
         if(isCorrectPosition(pos)) {
             p[0] = -96 + (int) pos.charAt(0); // column
             p[1] = Integer.parseInt(pos.substring(1)); // line
