@@ -33,6 +33,14 @@ public class Rook extends Piece {
         return moves.substring(0, moves.length() - 1).split(",");
     }
 
+    public String[] getValidMoves(Board b) {
+        String moves = String.join(",", this.getNextMoves());
+        String pos = this.getPosition();
+        // todo
+        // to remove move from list -> moves = moves.replace("e3,", "");
+        return moves.split(",");
+    }
+
     @Override
     public String toString() {
         return "Rook[state=" + this.getState() + ", position=" + this.getPosition() + "]";

@@ -33,6 +33,14 @@ public class King extends Piece {
     return final_string;
     }
 
+    public String[] getValidMoves(Board b) {
+        String moves = String.join(",", this.getNextMoves());
+        String pos = this.getPosition();
+        // todo
+        // to remove move from list -> moves = moves.replace("e3,", "");
+        return moves.split(",");
+    }
+
     @Override
     public String toString() {
         return "King[state=" + this.getState() + ", position=" + this.getPosition() + "]";

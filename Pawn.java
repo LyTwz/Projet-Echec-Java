@@ -71,6 +71,14 @@ public class Pawn extends Piece {
 
     }
 
+    public String[] getValidMoves(Board b) {
+        String moves = String.join(",", this.getNextMoves());
+        String pos = this.getPosition();
+        // todo
+        // to remove move from list -> moves = moves.replace("e3,", "");
+        return moves.split(",");
+    }
+
     @Override
     public String toString() {
         return "Pawn[state=" + this.getState() + ", position=" + this.getPosition() + "]";

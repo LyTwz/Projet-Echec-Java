@@ -84,4 +84,6 @@ public abstract class Piece {
 
     public abstract String[] getNextMoves();
 
+    public abstract String[] getValidMoves(Board b);
+
 }

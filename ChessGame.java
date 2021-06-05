@@ -102,11 +102,17 @@ public class ChessGame {
         return false;
     }
 
-    public String[] getValidMoves(String pos) { // 
-        if(this.board.getCell(pos).getPiece().getType().equals("Knight")) { return this.board.getCell(pos).getPiece().getNextMoves(); }
-        // todo -> rest of it
-        // loop through piece's next moves
-        return new String[16];
+    // removes from Piece.getNextMoves() moves that would imply jumping over another Piece, except if the Piece we wanna move is a Knight
+
+    public String[] getValidMoves(String pos) {  
+        if(Board.isCorrectPosition(pos)) {
+            // if the Piece at pos is a Knight, it can jump over other Pieces, so we don't need to change anything
+            if(this.board.getCell(pos).getPiece().getType().equals("Knight")) { return this.board.getCell(pos).getPiece().getNextMoves(); }
+            // loop through the piece's next moves
+            String[] nextMoves = this.board.getCell(pos).getPiece().getNextMoves();
+            
+        }
+        return null;
     }
 
     // todo -> checkMove()
