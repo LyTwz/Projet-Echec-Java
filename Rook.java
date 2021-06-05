@@ -29,6 +29,7 @@ public class Rook extends Piece {
             if(c != col) { moves += Board.intToPosition(c, line) + ","; }
             c++;
         } 
+        // System.out.println("Rook's got its next moves ready.");
         return moves.substring(0, moves.length() - 1).split(",");
     }
 

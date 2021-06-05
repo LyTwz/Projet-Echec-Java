@@ -68,7 +68,7 @@ public class Board {
                 Piece currentPosP = this.cells[currentIndex].getPiece();
                 Piece newPosP = this.cells[newIndex].getPiece();
                 currentPosP.setPosition(newPos);
-                newPosP.setPosition(null);
+                newPosP.setState(0);
                 this.cells[currentIndex].setPiece(null);
                 this.cells[newIndex].setPiece(currentPosP);
                 return newPosP != null ? newPosP : currentPosP; // return the 'Piece' that was at 'newPos' if there was one, otherwise return the 'Piece' that was at 'currentPos'

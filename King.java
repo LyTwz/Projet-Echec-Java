@@ -24,7 +24,7 @@ public class King extends Piece {
 
         for(int i = 0; i < possibleMoves.length; i ++){
             int posA = a + possibleMoves[i][0];
-            System.out.println(i);
+            // System.out.println(i);
             int posB = b + possibleMoves[i][1];
             string += Board.intToPosition(posA,posB) + ",";
 
