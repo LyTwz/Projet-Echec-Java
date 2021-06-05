@@ -1,8 +1,8 @@
 public class Pawn extends Piece {
     
-    private static final int[][] firstMovesWhite = { {0,1}, {0,2} };
+    private static final int[][] firstMovesWhite = { {0,1}, {0,2}, {1,1}, {-1,1}};
 
-    private static final int[][] firstMovesBlack = { {0,-1}, {0,-2} };
+    private static final int[][] firstMovesBlack = { {0,-1}, {0,-2}, {1,-1},{-1,-1} };
 
     private static final int[][] nextMovesWhite = { {0,1}, {1,1}, {-1,1}};
 
