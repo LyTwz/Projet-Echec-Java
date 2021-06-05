@@ -14,12 +14,12 @@ public class TextGameUI extends GameUI {
     public static final String BLACK_SQUARE_UNICODE = "\u25A1";
 
     
-    public static final String HORIZONTAL_LINE_UNICODE = "\u2015";  // ―
-    public static final String VERTICAL_LINE_UNICODE = "\u2758";    // ❘
-    public static final String TOP_LEFT_CORNER_UNICODE = "\u231C";  // ⌜
-    public static final String TOP_RIGHT_CORNER_UNICODE = "\u231D"; // ⌝
-    public static final String BOTTOM_LEFT_CORNER_UNICODE = "\u231E"; // ⌞
-    public static final String BOTTOM_RIGHT_CORNER_UNICODE = "\u231F"; // ⌟
+    public static final String HORIZONTAL_LINE_UNICODE = "―";  // ― "\u2015"
+    public static final String VERTICAL_LINE_UNICODE = "❘";    // ❘ "\u2758"
+    public static final String TOP_LEFT_CORNER_UNICODE = "⌜";  // ⌜ "\u231C"
+    public static final String TOP_RIGHT_CORNER_UNICODE = "⌝"; // ⌝ "\u231D"
+    public static final String BOTTOM_LEFT_CORNER_UNICODE = "⌞"; // ⌞ "\u231E"
+    public static final String BOTTOM_RIGHT_CORNER_UNICODE = "⌟"; // ⌟ "\u231F"
     
 
     public TextGameUI() {
