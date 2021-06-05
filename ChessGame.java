@@ -51,6 +51,75 @@ public class ChessGame {
         return this.winnerColor;
     }
 
+    public boolean isWhiteChecked(){
+        String pos = "";
+        String[] test;
+        Piece[] p1 = this.white.getPieces(); // get the white player's pieces
+        for(Piece z : p1){
+            if(z.getType().equals("King")){
+                pos = z.getPosition();
+            }
+        }
+
+        Piece[] p = this.black.getPieces();
+        for(Piece i : p) {
+            test = i.getNextMoves();
+            for(String x : test) { 
+                if(x.equals(pos)) { return true; }
+            }
+            // System.out.println("done");
+            /*for(int w = 0; w<test.length;w++){
+                if(test[w].equals(pos)){
+                    return true;
+                }
+            }*/
+        }
+        return false;
+    }
+
+    public boolean isBlackChecked(){
+        String pos = "";
+        String[] test;
+        Piece[] p1 = this.black.getPieces();
+        for(Piece z : p1){
+            if(z.getType().equals("King")){
+                pos = z.getPosition();
+            }
+        }
+
+        Piece[] p = this.white.getPieces();
+        for(Piece i : p ){
+            test = i.getNextMoves();
+            for(String x : test) {
+                if(x.equals(pos)) { return true; }
+            }
+            /*for(int w = 0; w<test.length;w++){
+                if(test[w].equals(pos)){
+                    return true;
+                }
+            }*/
+        }
+        return false;
+    }
+
+    public String[] getValidMoves(String pos) { // 
+        if(this.board.getCell(pos).getPiece().getType().equals("Knight")) { return this.board.getCell(pos).getPiece().getNextMoves(); }
+        // todo -> rest of it
+        // loop through piece's next moves
+        return new String[16];
+    }
+
+    // todo -> checkMove()
+
+    public boolean checkMove(String pos, String dest) { // pos -> current position of piece, dest -> destination 
+        if(Board.isCorrectPosition(pos)) {
+            Piece p = this.board.getCell(pos).getPiece();
+            if(p == null) { return false; }
+            // todo
+        }
+        return false;
+    }
+
     public void positionPieces() {
         // default
         // start by positioning all the pawns
@@ -72,6 +141,7 @@ public class ChessGame {
             this.board.addPiece(this.black.getPiece(i+8), Board.intToPosition(col, line-1));
             col++;
         }
+        this.board.movePiece(this.white.getPiece(3).getPosition(), "e7");
         // System.out.println(Arrays.toString(this.board.getCells()));
     }
 
@@ -81,7 +151,9 @@ public class ChessGame {
         positionPieces();
         while(this.gameState == true) {
             this.gameUI.drawUI(this.board);
-            String move = this.white.chooseMove(this.gameUI);
+            System.out.println("is black checked ? " + isBlackChecked());
+            //String move = this.white.chooseMove(this.gameUI);
+            this.gameState = false;
         }
         return 0;
     }

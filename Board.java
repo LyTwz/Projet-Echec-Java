@@ -68,7 +68,7 @@ public class Board {
                 Piece currentPosP = this.cells[currentIndex].getPiece();
                 Piece newPosP = this.cells[newIndex].getPiece();
                 currentPosP.setPosition(newPos);
-                newPosP.setPosition(null);
+                newPosP.setState(0);
                 this.cells[currentIndex].setPiece(null);
                 this.cells[newIndex].setPiece(currentPosP);
                 return newPosP != null ? newPosP : currentPosP; // return the 'Piece' that was at 'newPos' if there was one, otherwise return the 'Piece' that was at 'currentPos'
@@ -105,7 +105,6 @@ public class Board {
 
     public static int[] positionToInt(String pos) {
         int[] p = new int[2];
-        System.out.println("positionToInt() -> pos = " + pos);
         if(isCorrectPosition(pos)) {
             p[0] = -96 + (int) pos.charAt(0); // column
             p[1] = Integer.parseInt(pos.substring(1)); // line

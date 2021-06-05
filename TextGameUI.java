@@ -68,7 +68,7 @@ public class TextGameUI extends GameUI {
     }
 
     public void drawUI(Board b) {
-        clearScreen();
+        // clearScreen();
         drawBoard(b);
     }
 
