@@ -42,7 +42,7 @@ public class Board {
             int index = calcIndexFromPosition(pos); // calculate the index
             p.setPosition(pos);
             this.cells[index].setPiece(p);
-            return pos;
+            return this.cells[index].getPosition();
         } else {
             return null;
         }
@@ -53,11 +53,18 @@ public class Board {
             int index = calcIndexFromPosition(pos); // calculate the index
             Piece p = this.cells[index].getPiece();
             p.setPosition(null);
+            p.setState(0);
             this.cells[index].setPiece(null);
             return p;
         } else {
             return null;
         }
+    }
+
+    public Piece removePiece(String pos, int newState) {
+        Piece p = removePiece(pos);
+        if(p != null) { p.setState(newState); }
+        return p;
     }
 
     public Piece movePiece(String currentPos, String newPos) { // todo

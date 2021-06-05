@@ -38,8 +38,7 @@ public class Cell {
     // no setter for position, as it's a final attribute
 
     public void setPiece(Piece p) {
-        // make sure we're not affecting an uninstantiated object to this.piece
-        this.piece = p != null ? p : this.piece;
+        this.piece = p;
     }
 
     public String toString() {
