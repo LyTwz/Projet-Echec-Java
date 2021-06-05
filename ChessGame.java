@@ -119,9 +119,32 @@ public class ChessGame {
 
     public boolean checkMove(String pos, String dest) { // pos -> current position of piece, dest -> destination 
         if(Board.isCorrectPosition(pos)) {
+
             Piece p = this.board.getCell(pos).getPiece();
             if(p == null) { return false; }
-            // todo
+            Boolean color = p.getColor();
+            for(String i : getValidMoves(pos)){
+                if(dest.equals(i)){
+                    if(color == true){
+                        isWhiteChecked();
+                        if(isWhiteChecked() == false){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                    if(color == false){
+                        isBlackChecked();
+                        if(isBlackChecked() == false){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                }
+            }
         }
         return false;
     }
