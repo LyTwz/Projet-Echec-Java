@@ -33,11 +33,7 @@ public class Knight extends Piece {
     }
 
     public String[] getValidMoves(Board b) {
-        String moves = String.join(",", this.getNextMoves());
-        String pos = this.getPosition();
-        // todo
-        // to remove move from list -> moves = moves.replace("e3,", "");
-        return moves.split(",");
+        return this.getNextMoves();
     }
 
     @Override

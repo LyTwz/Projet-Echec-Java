@@ -43,33 +43,84 @@ public class Bishop extends Piece {
         return moves.split(",");
     }
 
+    public String[] getleftUpDiagonalPath(String dest) {
+        String pos = this.getPosition();
+        int destCol = Board.positionToInt(dest)[0];
+        int destLine = Board.positionToInt(dest)[1];
+        int col = Board.positionToInt(pos)[0];
+        int line = Board.positionToInt(pos)[1];
+        if(!Board.isOnLeftUpDiagonal(pos, dest)) { return null; } // check that the destination is on the left up diagonal
+        String path = String.join(",", Board.getleftUpDiagonalPath(pos));
+        path = path.substring(0, path.indexOf(dest) + dest.length());
+        return path.split(",");
+    }
+
+    public String[] getleftDownDiagonalPath(String dest) {
+        String pos = this.getPosition();
+        int destCol = Board.positionToInt(dest)[0];
+        int destLine = Board.positionToInt(dest)[1];
+        int col = Board.positionToInt(pos)[0];
+        int line = Board.positionToInt(pos)[1];
+        if(!Board.isOnLeftDownDiagonal(pos, dest)) { return null; } // check that the destination is on the left up diagonal
+        String path = String.join(",", Board.getleftDownDiagonalPath(pos));
+        path = path.substring(0, path.indexOf(dest) + dest.length());
+        return path.split(",");
+    }
+
+    public String[] getRightUpDiagonalPath(String dest) {
+        String pos = this.getPosition();
+        int destCol = Board.positionToInt(dest)[0];
+        int destLine = Board.positionToInt(dest)[1];
+        int col = Board.positionToInt(pos)[0];
+        int line = Board.positionToInt(pos)[1];
+        if(!Board.isOnRightUpDiagonal(pos, dest)) { return null; } // check that the destination is on the left up diagonal
+        String path = String.join(",", Board.getRightUpDiagonalPath(pos));
+        path = path.substring(0, path.indexOf(dest) + dest.length());
+        return path.split(",");
+    }
+
+    public String[] getRightDownDiagonalPath(String dest) {
+        String pos = this.getPosition();
+        int destCol = Board.positionToInt(dest)[0];
+        int destLine = Board.positionToInt(dest)[1];
+        int col = Board.positionToInt(pos)[0];
+        int line = Board.positionToInt(pos)[1];
+        if(!Board.isOnRightDownDiagonal(pos, dest)) { return null; } // check that the destination is on the left up diagonal
+        String path = String.join(",", Board.getRightDownDiagonalPath(pos));
+        path = path.substring(0, path.indexOf(dest) + dest.length());
+        return path.split(",");
+    }
+
+    public String[] getPath(String dest) { // chooses the right path to get from this.getPosition() to 'dest'
+        String[] path;
+        if(Board.isOnLeftUpDiagonal(this.getPosition(), dest)) { // if the destination is on the left up diagonal
+            path = this.getleftUpDiagonalPath(dest);
+        } else if(Board.isOnLeftDownDiagonal(this.getPosition(), dest)) { // left down diagonal
+            path = this.getleftDownDiagonalPath(dest);
+        } else if(Board.isOnRightUpDiagonal(this.getPosition(), dest)) { // right up diagonal
+            path = this.getRightUpDiagonalPath(dest);
+        } else /* if(Board.isOnRightDownDiagonal(this.getPosition(), dest)) */ { // right down diagonal
+            path = this.getRightDownDiagonalPath(dest);
+        }
+        return path;
+    }
+
     public String[] getValidMoves(Board b) {
         String validNextMoves = String.join(",", this.getNextMoves());
         String[] nextMoves = this.getNextMoves();
-        String pos = this.getPosition();
-        int currentCol = Board.positionToInt(pos)[0];
-        int currentLine = Board.positionToInt(pos)[1];
         for(String dest : nextMoves) {
             Piece p = b.getCell(dest).getPiece();
             if(p != null) { // if there's already a piece at the destination
                 validNextMoves = p.getColor() == this.getColor() ? validNextMoves.replace(dest + ",", "") : validNextMoves; // don't move there if it's the same color
             }
             // check whether there are pieces obstructing our way
-            int col = Board.positionToInt(dest)[0];
-            int line = Board.positionToInt(dest)[1];
-            String[] path;
-            if(col < currentCol && line > currentLine) { // if the destination is on the left up diagonal
-                path = Board.leftUpDiagonal(dest);
-            } else if(col < currentCol && line < currentLine) { // left down diagonal
-                path = Board.leftDownDiagonal(dest);
-            } else if(col > currentCol && line > currentLine) { // right up diagonal
-                path = Board.RightUpDiagonal(dest);
-            } else /* if(col > currentCol && line < currentLine) */ { // right down diagonal
-                path = Board.RightDownDiagonal(dest);
-            }
+            String[] path = this.getPath(dest);
+            // remove from validNextMoves all moves that involve jumping over another Piece
+            boolean jump = false;
             for(String c : path) {
-                validNextMoves = b.getCell(c).getPiece() != null ? validNextMoves.replace(dest + ",", "") : validNextMoves;
+                if(b.getCell(c).getPiece() != null) { jump = true; break; }
             }
+            validNextMoves = jump ? validNextMoves.replace(dest + ",", "") : validNextMoves;
         }
         return validNextMoves.split(",");
     }

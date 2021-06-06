@@ -33,51 +33,76 @@ public class Rook extends Piece {
         return moves.substring(0, moves.length() - 1).split(",");
     }
 
-    private String[] getColumnPath() {
+    private String[] getColumnPath(String dest) {
         String pos = this.getPosition();
         String path = "";
+        int destCol = Board.positionToInt(dest)[0];
+        int destLine = Board.positionToInt(dest)[1];
         int col = Board.positionToInt(pos)[0];
-        // list the cells on the current column
-        for(int l = 8; l >= 1; l--) {
-            path += Board.intToPosition(col, l) + ",";
+        int line = Board.positionToInt(pos)[1];
+        if(col != destCol) { return null; } // check that the destination is on the same column
+        // list the cells on the current column, until we reach the destination
+        if(destLine < line) { // if the destination is lower on the board
+            for(int l = destLine; l <= line; l++) {
+                path += Board.intToPosition(col, l) + ",";
+            }
+        } else { // if it's higher
+            for(int l = destLine; l >= line; l--) {
+                path += Board.intToPosition(col, l) + ",";
+            }
         }
         return path.split(",");
     }
 
-    private String[] getLinePath() {
+    private String[] getLinePath(String dest) {
         String pos = this.getPosition();
         String path = "";
+        int destCol = Board.positionToInt(dest)[0];
+        int destLine = Board.positionToInt(dest)[1];
+        int col = Board.positionToInt(pos)[0];
         int line = Board.positionToInt(pos)[1];
-        // list the cells on the current column
-        for(int c = 1; c <= 8; c++) {
-            path += Board.intToPosition(line, c) + ",";
+        if(line != destLine) { return null; } // check that the destination is on the same line
+        // list the cells on the current line, until we reach the destination
+        if(destCol < col) { // if the destination is on the left
+            for(int c = destCol; c <= col; c++) {
+                path += Board.intToPosition(c, line) + ",";
+            }
+        } else { // if it's on the right
+            for(int c = destLine; c >= line; c--) {
+                path += Board.intToPosition(c, line) + ",";
+            }
         }
         return path.split(",");
+    }
+
+    private String[] getPath(String dest) { // chooses the right path to get from this.getPosition() to 'dest'
+        if(Board.isCorrectPosition(dest)) {
+            int currentCol = Board.positionToInt(this.getPosition())[0];
+            int currentLine = Board.positionToInt(this.getPosition())[1];
+            int col = Board.positionToInt(dest)[0];
+            int line = Board.positionToInt(dest)[1];
+            // return the correct path depending on whether the destination is on the same line or column as 'this'
+            return col == currentCol && line != currentLine ? this.getColumnPath(dest) : this.getLinePath(dest); 
+        }
+        return null;
     }
 
     public String[] getValidMoves(Board b) {
         String validNextMoves = String.join(",", this.getNextMoves());
         String[] nextMoves = this.getNextMoves();
-        String pos = this.getPosition();
-        int currentCol = Board.positionToInt(pos)[0];
-        int currentLine = Board.positionToInt(pos)[1];
         for(String dest : nextMoves) {
             Piece p = b.getCell(dest).getPiece();
             if(p != null) { // if there's already a piece at the destination
                 validNextMoves = p.getColor() == this.getColor() ? validNextMoves.replace(dest + ",", "") : validNextMoves; // don't move there if it's the same color
             }
-            int col = Board.positionToInt(dest)[0];
-            int line = Board.positionToInt(dest)[1];
             // check whether there are pieces obstructing our way
-            String[] path;
-            if(col == currentCol && line != currentLine) { // if the destination is in the same column
-                path = this.getColumnPath();
-            } else {
-                path = this.getLinePath();
-            }
+            String[] path = this.getPath(dest);
+            // remove from validNextMoves all moves that involve jumping over another Piece
+            boolean jump = false;
             for(String c : path) {
-                validNextMoves = b.getCell(c).getPiece() != null ? validNextMoves.replace(dest + ",", "") : validNextMoves;
+                if(b.getCell(c).getPiece() != null) { jump = true; break; }
             }
+            validNextMoves = jump ? validNextMoves.replace(dest + ",", "") : validNextMoves;
         }
         return validNextMoves.split(",");
     }

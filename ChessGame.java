@@ -63,16 +63,10 @@ public class ChessGame {
 
         Piece[] p = this.black.getPieces();
         for(Piece i : p) {
-            test = i.getNextMoves();
+            test = i.getValidMoves(this.board);
             for(String x : test) { 
                 if(x.equals(pos)) { return true; }
             }
-            // System.out.println("done");
-            /*for(int w = 0; w<test.length;w++){
-                if(test[w].equals(pos)){
-                    return true;
-                }
-            }*/
         }
         return false;
     }
@@ -89,15 +83,10 @@ public class ChessGame {
 
         Piece[] p = this.white.getPieces();
         for(Piece i : p ){
-            test = i.getNextMoves();
+            test = i.getValidMoves(this.board);
             for(String x : test) {
                 if(x.equals(pos)) { return true; }
             }
-            /*for(int w = 0; w<test.length;w++){
-                if(test[w].equals(pos)){
-                    return true;
-                }
-            }*/
         }
         return false;
     }
@@ -106,45 +95,25 @@ public class ChessGame {
 
     public String[] getValidMoves(String pos) {  
         if(Board.isCorrectPosition(pos)) {
-            // if the Piece at pos is a Knight, it can jump over other Pieces, so we don't need to change anything
-            if(this.board.getCell(pos).getPiece().getType().equals("Knight")) { return this.board.getCell(pos).getPiece().getNextMoves(); }
-            // loop through the piece's next moves
-            String[] nextMoves = this.board.getCell(pos).getPiece().getNextMoves();
-            
+            return this.board.getCell(pos).getPiece().getValidMoves(this.board);
         }
         return null;
     }
 
-    // todo -> checkMove()
+    // checkMove()
 
     public boolean checkMove(String pos, String dest) { // pos -> current position of piece, dest -> destination 
         if(Board.isCorrectPosition(pos)) {
-
             Piece p = this.board.getCell(pos).getPiece();
             if(p == null) { return false; }
-            Boolean color = p.getColor();
-            for(String i : getValidMoves(pos)){
-                if(dest.equals(i)){
-                    if(color == true){
-                        isWhiteChecked();
-                        if(isWhiteChecked() == false){
-                            return true;
-                        }
-                        else{
-                            return false;
-                        }
-                    }
-                    if(color == false){
-                        isBlackChecked();
-                        if(isBlackChecked() == false){
-                            return true;
-                        }
-                        else{
-                            return false;
-                        }
-                    }
-                }
-            }
+            if(!String.join(",", p.getValidMoves(this.board)).contains(dest)) { return false; } // if the move is not valid
+            // simulate move to check whether that the impact that would have
+            Piece destP = this.board.movePiece(pos, dest);
+            // depending on the Piece's color, use the corresponding function to verify the player's not putting its own King in check
+            Boolean isPlayerChecked = p.getColor() ? isWhiteChecked() : isBlackChecked(); 
+            this.board.undoMove(dest, pos, destP);
+            if(isPlayerChecked) { return false; } // return false if this move would check the player
+            return true;
         }
         return false;
     }
@@ -170,8 +139,6 @@ public class ChessGame {
             this.board.addPiece(this.black.getPiece(i+8), Board.intToPosition(col, line-1));
             col++;
         }
-        this.board.movePiece(this.white.getPiece(3).getPosition(), "e7");
-        // System.out.println(Arrays.toString(this.board.getCells()));
     }
 
     // play
@@ -181,7 +148,7 @@ public class ChessGame {
         while(this.gameState == true) {
             this.gameUI.drawUI(this.board);
             System.out.println("is black checked ? " + isBlackChecked());
-            //String move = this.white.chooseMove(this.gameUI);
+            String move = this.white.chooseMove(this.gameUI);
             this.gameState = false;
         }
         return 0;

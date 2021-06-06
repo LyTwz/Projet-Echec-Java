@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Board {
 
     public static final int NB_CELLS = 64; // number of cells on a chess board
@@ -67,31 +69,61 @@ public class Board {
         return p;
     }
 
-    public Piece movePiece(String currentPos, String newPos) { // todo
-        if(Board.isCorrectPosition(currentPos) && Board.isCorrectPosition(newPos)) {
+    public Piece movePiece(String currentPos, String newPos) { 
+        if(Board.isCorrectPosition(currentPos) && Board.isCorrectPosition(newPos)) { // if both String arguments are correctly formatted
+            // get the index of both cells in the 'this.cells[]' array
             int currentIndex = calcIndexFromPosition(currentPos);
             int newIndex = calcIndexFromPosition(newPos);
             if(this.cells[currentIndex].getPiece() != null) { // if there's a 'Piece' at the 'currentPos'
+                // get the Piece at the 'currentPos'
                 Piece currentPosP = this.cells[currentIndex].getPiece();
+                // check whether there's a Piece at the 'newPos'
                 Piece newPosP = this.cells[newIndex].getPiece();
+                // notify the current Piece that it's been moved
                 currentPosP.setPosition(newPos);
-                newPosP.setState(0);
+                // if there's a Piece at 'newPos', take it off the board by setting its state to unused
+                if(newPosP != null) { newPosP.setState(0); }
+                // free the cell at 'currentPos'
                 this.cells[currentIndex].setPiece(null);
+                // assign the Piece to its new cell
                 this.cells[newIndex].setPiece(currentPosP);
-                return newPosP != null ? newPosP : currentPosP; // return the 'Piece' that was at 'newPos' if there was one, otherwise return the 'Piece' that was at 'currentPos'
+                return newPosP; // return the 'Piece' that was at 'newPos' if there was one, otherwise we're returning null
             } 
         }
+        return null; // return null if any of the if conditions aren't true
+    }
+
+    public Piece undoMove(String currentPos, String prevPos, Piece prevPiece) {
+        if(Board.isCorrectPosition(currentPos) && Board.isCorrectPosition(prevPos)) { // if both String arguments are correctly formatted
+            // get the index of both cells in the 'this.cells[]' array
+            int currentIndex = calcIndexFromPosition(currentPos);
+            int prevIndex = calcIndexFromPosition(prevPos);
+            if(this.cells[currentIndex].getPiece() != null && this.cells[prevIndex].getPiece() == null) { // if there's a 'Piece' at the 'currentPos' & no Piece at 'prevPos'
+                // get the Piece at the 'currentPos'
+                Piece currentPosP = this.cells[currentIndex].getPiece();
+                // notify the current Piece that it's been moved back
+                currentPosP.setPosition(prevPos);
+                prevPiece.setPosition(currentPos);
+                // make sure both Pieces have their state set to 'used'
+                currentPosP.setState(1);
+                if(prevPiece != null) { prevPiece.setState(1); }
+                // assign each Piece to the correct cell on the board
+                this.cells[currentIndex].setPiece(prevPiece);
+                this.cells[prevIndex].setPiece(currentPosP);
+                return currentPosP;
+            }
+        } 
         return null; // return null if any of the if conditions aren't true
     }
 
     // utility
 
     private int calcIndexFromPosition(String pos) {
-        if(Board.isCorrectPosition(pos)) {
+        if(Board.isCorrectPosition(pos)) { // if the 'pos' is correctly formatted
             int col = (int) pos.charAt(0); // isolate the column and convert it to the corresponding ASCII code
             int line = Integer.parseInt(pos.substring(1)); // isolate the line number 
             return (col - 97) * 8 + line - 1; // calculate the index & return it
-        } else {
+        } else { // return -1 if 'pos' isn't correctly formatted
             return -1;
         }
     }
@@ -120,7 +152,23 @@ public class Board {
         return null;
     }
 
-    public static String[] leftUpDiagonal(String pos) {
+    public static boolean isOnLeftUpDiagonal(String pos, String dest) {
+        return Arrays.asList(getleftUpDiagonalPath(pos)).contains(dest);
+    }
+
+    public static boolean isOnLeftDownDiagonal(String pos, String dest) {
+        return Arrays.asList(getleftDownDiagonalPath(pos)).contains(dest);
+    }
+
+    public static boolean isOnRightUpDiagonal(String pos, String dest) {
+        return Arrays.asList(getRightUpDiagonalPath(pos)).contains(dest);
+    }
+
+    public static boolean isOnRightDownDiagonal(String pos, String dest) {
+        return Arrays.asList(getRightDownDiagonalPath(pos)).contains(dest);
+    }
+
+    public static String[] getleftUpDiagonalPath(String pos) {
         String cells = "";
         int col = positionToInt(pos)[0];
         int line = positionToInt(pos)[1];
@@ -134,7 +182,7 @@ public class Board {
         return cells.split(",");
     }
 
-    public static String[] leftDownDiagonal(String pos) {
+    public static String[] getleftDownDiagonalPath(String pos) {
         String cells = "";
         int col = positionToInt(pos)[0];
         int line = positionToInt(pos)[1];
@@ -148,7 +196,7 @@ public class Board {
         return cells.split(",");
     }
 
-    public static String[] RightUpDiagonal(String pos) {
+    public static String[] getRightUpDiagonalPath(String pos) {
         String cells = "";
         int col = positionToInt(pos)[0];
         int line = positionToInt(pos)[1];
@@ -162,7 +210,7 @@ public class Board {
         return cells.split(",");
     }
 
-    public static String[] RightDownDiagonal(String pos) {
+    public static String[] getRightDownDiagonalPath(String pos) {
         String cells = "";
         int col = positionToInt(pos)[0];
         int line = positionToInt(pos)[1];
