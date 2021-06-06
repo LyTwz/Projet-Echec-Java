@@ -1,12 +1,12 @@
 public class Pawn extends Piece {
     
-    private static final int[][] firstMovesWhite = { {0,1}, {0,2}, {1,1}, {-1,1}};
+    private static final int[][] firstMovesWhite = { {1,1}, {-1,1},{0,1}, {0,2}};
 
-    private static final int[][] firstMovesBlack = { {0,-1}, {0,-2}, {1,-1},{-1,-1} };
+    private static final int[][] firstMovesBlack = {  {1,-1},{-1,-1},{0,-1}, {0,-2} };
 
-    private static final int[][] nextMovesWhite = { {0,1}, {1,1}, {-1,1}};
+    private static final int[][] nextMovesWhite = { {1,1}, {-1,1},{0,1} };
 
-    private static final int[][] nextMovesBlack = { {0,-1},{1,-1},{-1,-1} };
+    private static final int[][] nextMovesBlack = { {1,-1},{-1,-1},{0,-1} };
 
 
     public Pawn(boolean clr, int stt) {
@@ -72,11 +72,25 @@ public class Pawn extends Piece {
     }
 
     public String[] getValidMoves(Board b) {
-        String moves = String.join(",", this.getNextMoves());
-        String pos = this.getPosition();
+        String validMoves = "";
+        String[] moves = this.getNextMoves();
+        for(int i = 0; i<2;i++){
+            if(b.getCell(moves[i]).getPiece() != null){
+                Piece p = b.getCell(moves[i]).getPiece();  
+                validMoves += p.getColor() != this.getColor() ?  moves[i] + "," : ""; 
+            }
+        }
+
+        for(int i = 3;i<moves.length;i++){
+            if(b.getCell(moves[i]).getPiece() == null){
+                validMoves += moves[i] + "," ; 
+            }
+
+        }
+        return validMoves.split(",");
         // todo
         // to remove move from list -> moves = moves.replace("e3,", "");
-        return moves.split(",");
+        //return moves.split(",");
     }
 
     @Override

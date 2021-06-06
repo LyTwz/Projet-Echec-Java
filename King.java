@@ -34,11 +34,16 @@ public class King extends Piece {
     }
 
     public String[] getValidMoves(Board b) {
-        String moves = String.join(",", this.getNextMoves());
-        String pos = this.getPosition();
-        // todo
-        // to remove move from list -> moves = moves.replace("e3,", "");
-        return moves.split(",");
+        String validMoves = "";
+        String[] moves = this.getNextMoves();
+        for(int i = 0; i<moves.length;i++){
+            if(b.getCell(moves[i]).getPiece() != null){
+                Piece p = b.getCell(moves[i]).getPiece();  
+                validMoves += p.getColor() != this.getColor() ?  moves[i] + "," : ""; 
+            }
+        }
+        
+        return validMoves.split(",");
     }
 
     @Override
