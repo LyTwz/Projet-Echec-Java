@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Bishop extends Piece {
     
     public Bishop(boolean clr, int stt) {
@@ -7,7 +9,7 @@ public class Bishop extends Piece {
 
     public Bishop(boolean clr, int stt, String pos) {
         super(clr, stt, pos);
-        this.setRepresentation("B");
+        this.setRepresentation(clr ? Piece.WHITE_BISHOP_UNICODE : Piece.BLACK_BISHOP_UNICODE);
     }
 
     // other functions --> 
@@ -40,6 +42,8 @@ public class Bishop extends Piece {
         }
         diagonalRight += Board.intToPosition(col, line) + ",";
         moves = diagonalLeft + diagonalRight.substring(0, diagonalRight.length()-1);
+        moves = moves.replaceAll(this.getPosition(), ""); // removing from the list occurrences of the Piece's current position
+        moves = moves.replaceAll(",,", ","); 
         return moves.split(",");
     }
 

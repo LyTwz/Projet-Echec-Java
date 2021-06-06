@@ -7,7 +7,7 @@ public class Queen extends Piece {
 
     public Queen(boolean clr, int stt, String pos) {
         super(clr, stt, pos);
-        this.setRepresentation("Q");
+        this.setRepresentation(clr ? Piece.WHITE_QUEEN_UNICODE : Piece.BLACK_QUEEN_UNICODE);
     }
 
     // other functions --> 
@@ -57,6 +57,8 @@ public class Queen extends Piece {
             if(c != col) { moves += Board.intToPosition(c, line) + ","; }
             c++;
         } 
+        moves = moves.replaceAll(this.getPosition(), "");
+        moves = moves.replaceAll(",,", ",");
         return moves.substring(0, moves.length() - 1).split(",");
     }
 

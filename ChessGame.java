@@ -82,7 +82,7 @@ public class ChessGame {
         }
 
         Piece[] p = this.white.getPieces();
-        for(Piece i : p ){
+        for(Piece i : p ) {
             test = i.getValidMoves(this.board);
             for(String x : test) {
                 if(x.equals(pos)) { return true; }
@@ -147,7 +147,7 @@ public class ChessGame {
         positionPieces();
         while(this.gameState == true) {
             this.gameUI.drawUI(this.board);
-            System.out.println("is black checked ? " + isBlackChecked());
+            // System.out.println("is white checked ? " + isWhiteChecked());
             String move = this.white.chooseMove(this.gameUI);
             this.gameState = false;
         }

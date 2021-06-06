@@ -7,7 +7,7 @@ public class Rook extends Piece {
 
     public Rook(boolean clr, int stt, String pos) {
         super(clr, stt, pos);
-        this.setRepresentation("R");
+        this.setRepresentation(clr ? Piece.WHITE_ROOK_UNICODE : Piece.BLACK_ROOK_UNICODE);
     }
 
     // other functions --> 
