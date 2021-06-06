@@ -91,17 +91,6 @@ public class ChessGame {
         return false;
     }
 
-    // removes from Piece.getNextMoves() moves that would imply jumping over another Piece, except if the Piece we wanna move is a Knight
-
-    public String[] getValidMoves(String pos) {  
-        if(Board.isCorrectPosition(pos)) {
-            return this.board.getCell(pos).getPiece().getValidMoves(this.board);
-        }
-        return null;
-    }
-
-    // checkMove()
-
     public boolean checkMove(String pos, String dest) { // pos -> current position of piece, dest -> destination 
         if(Board.isCorrectPosition(pos)) {
             Piece p = this.board.getCell(pos).getPiece();
@@ -110,7 +99,7 @@ public class ChessGame {
             // simulate move to check whether that the impact that would have
             Piece destP = this.board.movePiece(pos, dest);
             // depending on the Piece's color, use the corresponding function to verify the player's not putting its own King in check
-            Boolean isPlayerChecked = p.getColor() ? isWhiteChecked() : isBlackChecked(); 
+            boolean isPlayerChecked = p.getColor() ? isWhiteChecked() : isBlackChecked(); 
             this.board.undoMove(dest, pos, destP);
             if(isPlayerChecked) { return false; } // return false if this move would check the player
             return true;
@@ -147,7 +136,7 @@ public class ChessGame {
         positionPieces();
         while(this.gameState == true) {
             this.gameUI.drawUI(this.board);
-            // System.out.println("is white checked ? " + isWhiteChecked());
+            System.out.println("is white checked ? " + isWhiteChecked());
             String move = this.white.chooseMove(this.gameUI);
             this.gameState = false;
         }

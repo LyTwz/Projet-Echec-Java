@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class King extends Piece {
     
     private static final int[][] possibleMoves = {  {1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,-1},{-1,1}};
@@ -21,16 +23,14 @@ public class King extends Piece {
         int [] convertedPos = Board.positionToInt(pos);
         int a = convertedPos[0];
         int b = convertedPos[1];
-
-        for(int i = 0; i < possibleMoves.length; i ++){
+        for(int i = 0; i < possibleMoves.length; i ++) {
             int posA = a + possibleMoves[i][0];
-            // System.out.println(i);
             int posB = b + possibleMoves[i][1];
-            string += Board.intToPosition(posA,posB) + ",";
+            string += Board.isCorrectPosition(posA, posB) ? Board.intToPosition(posA,posB) + "," : "";
 
-    }
-    String[] final_string = string.split(",");
-    return final_string;
+        }
+        // String[] final_string = string.split(",");
+        return string.replaceAll(this.getPosition(), "").split(",");
     }
 
     public String[] getValidMoves(Board b) {
