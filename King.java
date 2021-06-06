@@ -33,6 +33,10 @@ public class King extends Piece {
         return string.replaceAll(this.getPosition(), "").split(",");
     }
 
+    public String[] getPath(String dest) {
+        return null;
+    }
+
     public String[] getValidMoves(Board b) {
         String validMoves = "";
         String[] moves = this.getNextMoves();

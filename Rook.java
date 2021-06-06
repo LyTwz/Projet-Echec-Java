@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Rook extends Piece {
     
     public Rook(boolean clr, int stt) {
@@ -74,7 +76,7 @@ public class Rook extends Piece {
         return path.split(",");
     }
 
-    private String[] getPath(String dest) { // chooses the right path to get from this.getPosition() to 'dest'
+    public String[] getPath(String dest) { // chooses the right path to get from this.getPosition() to 'dest'
         if(Board.isCorrectPosition(dest)) {
             int currentCol = Board.positionToInt(this.getPosition())[0];
             int currentLine = Board.positionToInt(this.getPosition())[1];
@@ -92,16 +94,16 @@ public class Rook extends Piece {
         for(String dest : nextMoves) {
             Piece p = b.getCell(dest).getPiece();
             if(p != null) { // if there's already a piece at the destination
-                validNextMoves = p.getColor() == this.getColor() ? validNextMoves.replace(dest + ",", "") : validNextMoves; // don't move there if it's the same color
+                validNextMoves = p.getColor() == this.getColor() ? validNextMoves.replace(dest, "") : validNextMoves; // don't move there if it's the same color
             }
             // check whether there are pieces obstructing our way
             String[] path = this.getPath(dest);
             // remove from validNextMoves all moves that involve jumping over another Piece
             boolean jump = false;
             for(String c : path) {
-                if(b.getCell(c).getPiece() != null) { jump = true; break; }
+                if(b.getCell(c).getPiece() != null && !c.equals(dest) && !c.equals(this.getPosition())) { jump = true; break; }
             }
-            validNextMoves = jump ? validNextMoves.replace(dest + ",", "") : validNextMoves;
+            validNextMoves = jump ? validNextMoves.replace(dest, "") : validNextMoves;
         }
         return validNextMoves.split(",");
     }

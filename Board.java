@@ -103,7 +103,7 @@ public class Board {
                 Piece currentPosP = this.cells[currentIndex].getPiece();
                 // notify the current Piece that it's been moved back
                 currentPosP.setPosition(prevPos);
-                prevPiece.setPosition(currentPos);
+                if(prevPiece != null) { prevPiece.setPosition(currentPos); }
                 // make sure both Pieces have their state set to 'used'
                 currentPosP.setState(1);
                 if(prevPiece != null) { prevPiece.setState(1); }
@@ -131,6 +131,8 @@ public class Board {
     // class methods
 
     public static boolean isCorrectPosition(String pos) {
+        if(pos == null) { return false; }
+        if(pos.length() != 2) { return false; }
         return ((int) pos.charAt(0) >= 97 && (int) pos.charAt(0) <= 104) && (Integer.parseInt(pos.substring(1)) >= 1 && Integer.parseInt(pos.substring(1)) <= 8);
     }
 

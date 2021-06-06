@@ -26,38 +26,35 @@ public class Pawn extends Piece {
     public String[] getNextMoves() { // todo 
         String string = "";
         String pos = this.getPosition();
-        String col = pos.substring(1,2);
-        int col2 = Integer.valueOf(col);
-        int [] convertedPos = Board.positionToInt(pos);
-        int a = convertedPos[0];
-        int b = convertedPos[1];
+        int col = Board.positionToInt(pos)[0];
+        int line = Board.positionToInt(pos)[1];
 
-        if(this.getColor() == true && col2 == 2){
+        if(this.getColor() == true && line == 2) {
             for(int i = 0; i < firstMovesWhite.length; i++){
-                int posA = a + firstMovesWhite[i][0];
-                int posB = b + firstMovesWhite[i][1];
+                int posA = col + firstMovesWhite[i][0];
+                int posB = line + firstMovesWhite[i][1];
                 string += Board.isCorrectPosition(posA, posB) ? Board.intToPosition(posA,posB) + "," : "";
             }
         }
-        if(this.getColor() == false && col2 == 7){
+        if(this.getColor() == false && line == 7){
             for(int i = 0; i < firstMovesBlack.length; i++){
-                int posA = a + firstMovesBlack[i][0];
-                int posB = b + firstMovesBlack[i][1];
+                int posA = col + firstMovesBlack[i][0];
+                int posB = line + firstMovesBlack[i][1];
                 string += Board.isCorrectPosition(posA, posB) ? Board.intToPosition(posA,posB) + "," : "";
             }
         }
-        if(this.getColor() == true && col2 != 7){
+        if(this.getColor() == true && line != 2){
             for(int i = 0; i < nextMovesWhite.length; i++){
-                int posA = a + nextMovesWhite[i][0];
-                int posB = b + nextMovesWhite[i][1];
+                int posA = line + nextMovesWhite[i][0];
+                int posB = col + nextMovesWhite[i][1];
                 string += Board.isCorrectPosition(posA, posB) ? Board.intToPosition(posA,posB) + "," : "";
             }
         }
 
-        if(this.getColor() == false && col2 != 7){
+        if(this.getColor() == false && line != 7){
             for(int i = 0; i < nextMovesBlack.length; i++){
-                int posA = a + nextMovesBlack[i][0];
-                int posB = b + nextMovesBlack[i][1];
+                int posA = col + nextMovesBlack[i][0];
+                int posB = line + nextMovesBlack[i][1];
                 string += Board.isCorrectPosition(posA, posB) ? Board.intToPosition(posA,posB) + "," : "";
             }
         
@@ -69,26 +66,42 @@ public class Pawn extends Piece {
 
     }
 
+    public String[] getPath(String dest) {
+        return null;
+    }
+
     public String[] getValidMoves(Board b) {
         String validMoves = "";
         String[] moves = this.getNextMoves();
-        for(int i = 0; i<2;i++){
-            if(b.getCell(moves[i]).getPiece() != null){
-                Piece p = b.getCell(moves[i]).getPiece();  
-                validMoves += p.getColor() != this.getColor() ?  moves[i] + "," : ""; 
+        // System.out.println(Arrays.toString(moves));
+        for(String dest : moves) {
+            if(Board.isOnLeftUpDiagonal(this.getPosition(), dest) || Board.isOnRightUpDiagonal(this.getPosition(), dest)) { // if the destination is on the right or left diagonal
+                if(b.getCell(dest).getPiece() != null) { // if there's a Piece at the destination
+                    validMoves += b.getCell(dest).getPiece().getColor() != this.getColor() ?  dest + "," : "";  // don't move there if the Piece is the same color as we are
+                }
+            } else if(Board.isOnRightDownDiagonal(this.getPosition(), dest) || Board.isOnLeftDownDiagonal(this.getPosition(), dest)) {
+                if(b.getCell(dest).getPiece() != null) { // if there's a Piece at the destination
+                    validMoves += b.getCell(dest).getPiece().getColor() != this.getColor() ?  dest + "," : "";  // don't move there if the Piece is the same color as we are
+                }
+            } 
+            else {
+                int destCol = Board.positionToInt(dest)[0];
+                int destLine = Board.positionToInt(dest)[1]; 
+                int currentLine = Board.positionToInt(this.getPosition())[1];
+                if(Math.abs(destLine - currentLine) == 2) {
+                    int intermidiateLine = this.getColor() ? 1 : -1;
+                    if(b.getCell(dest).getPiece() == null && b.getCell(destCol, destLine-intermidiateLine).getPiece() == null) {
+                        validMoves += dest + ",";
+                    } 
+                } else {
+                    if(b.getCell(dest).getPiece() == null) {
+                        validMoves += dest + ",";
+                    }
+                }
             }
         }
-
-        for(int i = 3;i<moves.length;i++){
-            if(b.getCell(moves[i]).getPiece() == null){
-                validMoves += moves[i] + "," ; 
-            }
-
-        }
+        // System.out.println(this.getType() + "'s next valid moves -> " + validMoves);
         return validMoves.split(",");
-        // todo
-        // to remove move from list -> moves = moves.replace("e3,", "");
-        //return moves.split(",");
     }
 
     @Override

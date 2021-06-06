@@ -25,11 +25,15 @@ public class Knight extends Piece {
             int posA = a + possibleMoves[i][0];
             // System.out.println(i);
             int posB = b + possibleMoves[i][1];
-            string += Board.intToPosition(posA,posB) + ",";
+            string += Board.isCorrectPosition(posA, posB) ? Board.intToPosition(posA,posB) + "," : "";
 
-    }
+        }
         String[] final_string = string.split(",");
         return final_string;
+    }
+
+    public String[] getPath(String dest) { // empty function
+        return null;
     }
 
     public String[] getValidMoves(Board b) {

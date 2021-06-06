@@ -46,6 +46,25 @@ public abstract class Player {
         return this.score;
     }
 
+    public int getInUsePiecesCount() {
+        int count = 0;
+        // count the number in use Pieces
+        for(int i = 0; i < this.getPieces().length; i++) {
+            count = this.getPiece(i).getState() == 1 ? count + 1 : count;
+        }
+        return count;
+    }
+
+    public Piece[] getInUsePieces() {
+        int count = this.getInUsePiecesCount();
+        Piece[] inUsePieces = new Piece[count];
+        int index = 0;
+        for(Piece p : this.getPieces()) {
+            if(p.getState() == 1) { inUsePieces[index] = p; index++; }
+        }
+        return inUsePieces;
+    }
+
     public void setScore(int s) {
         this.score = s;
     }
@@ -55,12 +74,12 @@ public abstract class Player {
     public String gameStatus() {
         String status = "";
         int count = 0;
-        for(Piece p : this.pieces) {
-            status += p.getState() == 1 ? p.getStatus() + "\n" : "";
-            count = count < 4 ? count + 1 : 0;
+        for(Piece p : this.getInUsePieces()) {
+            status += (count+1) + ". " + p.getStatus() + "\n";
+            count++;
         }
         return status;
     }
 
-    public abstract String chooseMove(GameUI gameUI); // returns a string formatted like so -> <startPos>-<nextPos> -> ex : a8-b5
+    public abstract String chooseMove(GameUI gameUI, Board b); // returns a string formatted like so -> <startPos>-<nextPos> -> ex : a8-b5
 }

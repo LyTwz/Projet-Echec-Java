@@ -44,10 +44,11 @@ public class Bishop extends Piece {
         moves = diagonalLeft + diagonalRight.substring(0, diagonalRight.length()-1);
         moves = moves.replaceAll(this.getPosition(), ""); // removing from the list occurrences of the Piece's current position
         moves = moves.replaceAll(",,", ","); 
+        // System.out.println((this.getColor() ? "white " : "black ") + this.getType() + "'s next moves -> " + moves);
         return moves.split(",");
     }
 
-    public String[] getleftUpDiagonalPath(String dest) {
+    private String[] getleftUpDiagonalPath(String dest) {
         String pos = this.getPosition();
         int destCol = Board.positionToInt(dest)[0];
         int destLine = Board.positionToInt(dest)[1];
@@ -59,7 +60,7 @@ public class Bishop extends Piece {
         return path.split(",");
     }
 
-    public String[] getleftDownDiagonalPath(String dest) {
+    private String[] getleftDownDiagonalPath(String dest) {
         String pos = this.getPosition();
         int destCol = Board.positionToInt(dest)[0];
         int destLine = Board.positionToInt(dest)[1];
@@ -71,7 +72,7 @@ public class Bishop extends Piece {
         return path.split(",");
     }
 
-    public String[] getRightUpDiagonalPath(String dest) {
+    private String[] getRightUpDiagonalPath(String dest) {
         String pos = this.getPosition();
         int destCol = Board.positionToInt(dest)[0];
         int destLine = Board.positionToInt(dest)[1];
@@ -83,7 +84,7 @@ public class Bishop extends Piece {
         return path.split(",");
     }
 
-    public String[] getRightDownDiagonalPath(String dest) {
+    private String[] getRightDownDiagonalPath(String dest) {
         String pos = this.getPosition();
         int destCol = Board.positionToInt(dest)[0];
         int destLine = Board.positionToInt(dest)[1];
@@ -115,17 +116,18 @@ public class Bishop extends Piece {
         for(String dest : nextMoves) {
             Piece p = b.getCell(dest).getPiece();
             if(p != null) { // if there's already a piece at the destination
-                validNextMoves = p.getColor() == this.getColor() ? validNextMoves.replace(dest + ",", "") : validNextMoves; // don't move there if it's the same color
+                validNextMoves = p.getColor() == this.getColor() ? validNextMoves.replace(dest, "") : validNextMoves; // don't move there if it's the same color
             }
             // check whether there are pieces obstructing our way
             String[] path = this.getPath(dest);
             // remove from validNextMoves all moves that involve jumping over another Piece
             boolean jump = false;
             for(String c : path) {
-                if(b.getCell(c).getPiece() != null) { jump = true; break; }
+                if(b.getCell(c).getPiece() != null && !c.equals(dest) && !c.equals(this.getPosition())) { jump = true; break; }
             }
-            validNextMoves = jump ? validNextMoves.replace(dest + ",", "") : validNextMoves;
+            validNextMoves = jump ? validNextMoves.replace(dest, "") : validNextMoves;
         }
+        // System.out.println((this.getColor() ? "white " : "black ") + this.getType() + "'s next valid moves -> " + validNextMoves);
         return validNextMoves.split(",");
     }
 

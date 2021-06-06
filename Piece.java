@@ -87,4 +87,6 @@ public abstract class Piece {
     // removes from Piece.getNextMoves() moves that would imply jumping over another Piece, except if the Piece we wanna move is a Knight
     public abstract String[] getValidMoves(Board b); 
 
+    public abstract String[] getPath(String dest);
+
 }
