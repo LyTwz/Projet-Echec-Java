@@ -44,13 +44,34 @@ public class Bishop extends Piece {
     }
 
     public String[] getValidMoves(Board b) {
-        String moves = String.join(",", this.getNextMoves());
+        String validNextMoves = String.join(",", this.getNextMoves());
+        String[] nextMoves = this.getNextMoves();
         String pos = this.getPosition();
-        // left up diagonal
-        int col = Board.positionToInt(Board.farthestLeftUpDiagonally(pos))[0];
-        int line = Board.positionToInt(Board.farthestLeftUpDiagonally(pos))[1];
-        
-        return moves.split(",");
+        int currentCol = Board.positionToInt(pos)[0];
+        int currentLine = Board.positionToInt(pos)[1];
+        for(String dest : nextMoves) {
+            Piece p = b.getCell(dest).getPiece();
+            if(p != null) { // if there's already a piece at the destination
+                validNextMoves = p.getColor() == this.getColor() ? validNextMoves.replace(dest + ",", "") : validNextMoves; // don't move there if it's the same color
+            }
+            // check whether there are pieces obstructing our way
+            int col = Board.positionToInt(dest)[0];
+            int line = Board.positionToInt(dest)[1];
+            String[] path;
+            if(col < currentCol && line > currentLine) { // if the destination is on the left up diagonal
+                path = Board.leftUpDiagonal(dest);
+            } else if(col < currentCol && line < currentLine) { // left down diagonal
+                path = Board.leftDownDiagonal(dest);
+            } else if(col > currentCol && line > currentLine) { // right up diagonal
+                path = Board.RightUpDiagonal(dest);
+            } else /* if(col > currentCol && line < currentLine) */ { // right down diagonal
+                path = Board.RightDownDiagonal(dest);
+            }
+            for(String c : path) {
+                validNextMoves = b.getCell(c).getPiece() != null ? validNextMoves.replace(dest + ",", "") : validNextMoves;
+            }
+        }
+        return validNextMoves.split(",");
     }
 
     @Override

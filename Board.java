@@ -120,6 +120,62 @@ public class Board {
         return null;
     }
 
+    public static String[] leftUpDiagonal(String pos) {
+        String cells = "";
+        int col = positionToInt(pos)[0];
+        int line = positionToInt(pos)[1];
+        col--;
+        line++;
+        while(isCorrectPosition(col, line)) {
+            cells += intToPosition(col, line) + ",";
+            col--;
+            line++;
+        }
+        return cells.split(",");
+    }
+
+    public static String[] leftDownDiagonal(String pos) {
+        String cells = "";
+        int col = positionToInt(pos)[0];
+        int line = positionToInt(pos)[1];
+        col--;
+        line--;
+        while(isCorrectPosition(col, line)) {
+            cells += intToPosition(col, line) + ",";
+            col--;
+            line--;
+        }
+        return cells.split(",");
+    }
+
+    public static String[] RightUpDiagonal(String pos) {
+        String cells = "";
+        int col = positionToInt(pos)[0];
+        int line = positionToInt(pos)[1];
+        col++;
+        line++;
+        while(isCorrectPosition(col, line)) {
+            cells += intToPosition(col, line) + ",";
+            col++;
+            line++;
+        }
+        return cells.split(",");
+    }
+
+    public static String[] RightDownDiagonal(String pos) {
+        String cells = "";
+        int col = positionToInt(pos)[0];
+        int line = positionToInt(pos)[1];
+        col++;
+        line--;
+        while(isCorrectPosition(col, line)) {
+            cells += intToPosition(col, line) + ",";
+            col++;
+            line--;
+        }
+        return cells.split(",");
+    }
+
     public static String farthestLeftUpDiagonally(String pos) {
         if(!isCorrectPosition(pos)) {
             return null;

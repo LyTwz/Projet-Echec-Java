@@ -33,12 +33,53 @@ public class Rook extends Piece {
         return moves.substring(0, moves.length() - 1).split(",");
     }
 
-    public String[] getValidMoves(Board b) {
-        String moves = String.join(",", this.getNextMoves());
+    private String[] getColumnPath() {
         String pos = this.getPosition();
-        // todo
-        // to remove move from list -> moves = moves.replace("e3,", "");
-        return moves.split(",");
+        String path = "";
+        int col = Board.positionToInt(pos)[0];
+        // list the cells on the current column
+        for(int l = 8; l >= 1; l--) {
+            path += Board.intToPosition(col, l) + ",";
+        }
+        return path.split(",");
+    }
+
+    private String[] getLinePath() {
+        String pos = this.getPosition();
+        String path = "";
+        int line = Board.positionToInt(pos)[1];
+        // list the cells on the current column
+        for(int c = 1; c <= 8; c++) {
+            path += Board.intToPosition(line, c) + ",";
+        }
+        return path.split(",");
+    }
+
+    public String[] getValidMoves(Board b) {
+        String validNextMoves = String.join(",", this.getNextMoves());
+        String[] nextMoves = this.getNextMoves();
+        String pos = this.getPosition();
+        int currentCol = Board.positionToInt(pos)[0];
+        int currentLine = Board.positionToInt(pos)[1];
+        for(String dest : nextMoves) {
+            Piece p = b.getCell(dest).getPiece();
+            if(p != null) { // if there's already a piece at the destination
+                validNextMoves = p.getColor() == this.getColor() ? validNextMoves.replace(dest + ",", "") : validNextMoves; // don't move there if it's the same color
+            }
+            int col = Board.positionToInt(dest)[0];
+            int line = Board.positionToInt(dest)[1];
+            // check whether there are pieces obstructing our way
+            String[] path;
+            if(col == currentCol && line != currentLine) { // if the destination is in the same column
+                path = this.getColumnPath();
+            } else {
+                path = this.getLinePath();
+            }
+            for(String c : path) {
+                validNextMoves = b.getCell(c).getPiece() != null ? validNextMoves.replace(dest + ",", "") : validNextMoves;
+            }
+        }
+        return validNextMoves.split(",");
     }
 
     @Override
