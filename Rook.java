@@ -12,7 +12,7 @@ public class Rook extends Piece {
 
     // other functions --> 
 
-    public String[] getNextMoves() { // todo 
+    public String[] getNextMoves() { 
         String moves = "";
         String pos = this.getPosition();
         int col = Board.positionToInt(pos)[0];
@@ -29,7 +29,6 @@ public class Rook extends Piece {
             if(c != col) { moves += Board.intToPosition(c, line) + ","; }
             c++;
         } 
-        // System.out.println("Rook's got its next moves ready.");
         return moves.substring(0, moves.length() - 1).split(",");
     }
 
