@@ -7,13 +7,16 @@ public class Log {
     }
 
     public boolean check(String move) { // check the validity of the log entry
-        return move.charAt(0) == '+' || move.charAt(0) == '-' && Game.isCorrectMove(move.substring(1));
+        if(move == null) { return false; }
+        if(move.length() != 5) { return false; }
+        return Board.isCorrectPosition(move.substring(0, 2)) && move.charAt(2) == '-' && Board.isCorrectPosition(move.substring(3));
     }
 
     public String update(String entry) {
         if(entry != null) {
             // check whether 'move' is correctly formatted --> <+ or -><move> 
-            this.log += check(entry) ? entry : "";
+            System.out.println(entry + " is correct ? " + check(entry));
+            this.log += check(entry) ? entry + "," : "";
             return entry;
         }
         return null;

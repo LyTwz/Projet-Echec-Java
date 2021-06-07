@@ -1,6 +1,5 @@
 public abstract class Player {
     
-    private int score;
     private final boolean color; // cannot change the 'Player's color after it's been instantiated
     private Piece[] pieces; // pawns start at index 7
 
@@ -42,10 +41,6 @@ public abstract class Player {
         return this.color;
     }
 
-    public int getScore() {
-        return this.score;
-    }
-
     public int getInUsePiecesCount() {
         int count = 0;
         // count the number in use Pieces
@@ -63,10 +58,6 @@ public abstract class Player {
             if(p.getState() == 1) { inUsePieces[index] = p; index++; }
         }
         return inUsePieces;
-    }
-
-    public void setScore(int s) {
-        this.score = s;
     }
 
     // other functions -->

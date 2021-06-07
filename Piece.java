@@ -80,6 +80,25 @@ public abstract class Piece {
         return "Piece[state=" + this.state + ", position=" + this.position + "]";
     }
 
+    public boolean equals(Object o) {
+        // If the object is compared with itself then return true  
+        if (o == this) {
+            return true;
+        }
+  
+        /* Check if o is an instance of Complex or not
+          "null instanceof [type]" also returns false */
+        if (!(o instanceof Piece)) {
+            return false;
+        }
+        Piece p = (Piece) o;
+        return p.getColor() == this.getColor() && p.getType() == this.getType() && p.getState() == this.getState() && p.getPosition() == this.getPosition();
+    }
+
+    public String toFile() {
+        return "type=" + this.getType() + ", state=" + this.getState() + ", position=" + this.position;
+    }
+
     // to be implemented by children
 
     public abstract String[] getNextMoves();

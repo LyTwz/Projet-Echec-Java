@@ -45,4 +45,8 @@ public class Cell {
         return "Cell [position=" + this.position + ", color=" + this.color + ", piece=" + this.piece + "]";
     }
 
+    public String toFile() {
+        return "position=" + this.position + ", color=" + this.color + "piece={" + this.piece.toFile() + "}";
+    }
+
 }

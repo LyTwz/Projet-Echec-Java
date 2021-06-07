@@ -92,6 +92,13 @@ public class TextGameUI extends GameUI {
         return answer.trim().toLowerCase();
     }
 
+    public int askInt(String question) {
+        System.out.print(question + " ");
+        int answer = this.input.nextInt();
+        this.input.nextLine();
+        return answer;
+    }
+
     public void alert(String message) {
         System.out.println(message);
     }

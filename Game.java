@@ -4,6 +4,8 @@ public class Game {
         // nothing special here yet
     }
 
+    // public state
+
     // utility
 
     public static boolean isCorrectMove(String move) { // verifies the format of a 'move' string

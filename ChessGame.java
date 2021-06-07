@@ -42,6 +42,21 @@ public class ChessGame {
         }
     }
 
+    public ChessGame(boolean md, boolean gameStt, boolean winnerClr, Player bl, Player w, Board b, Log l, GameUI gui) {
+        this.mode = md;
+        this.gameState = gameStt;
+        this.winnerColor = winnerClr;
+        this.black = bl;
+        this.white = w;
+        this.board = b;
+        this.log = l;
+        this.gameUI = gui;
+    }
+
+    public ChessGame(boolean md, Player bl, Player w, Board b, Log l) {
+        this(md, true, false, bl, w, b, l, new TextGameUI());
+    }
+
     // getters 
 
     public boolean getGameState() {
@@ -51,6 +66,14 @@ public class ChessGame {
     public boolean getWinnerColor() {
         return this.winnerColor;
     }
+
+    public Player getWhite() { return this.white; }
+
+    public Player getBlack() { return this.black; }
+
+    public Board getBoard() { return this.board; }
+
+    public Log getLog() { return this.log; }
 
     public boolean isWhiteChecked(){
         String[] test;
@@ -163,41 +186,81 @@ public class ChessGame {
 
     public int play() { // returns either -1 --> error, 0 --> don't save, 1 --> save
         positionPieces();
+        int onQuit = 0;
         while(this.gameState == true) {
             this.gameUI.drawUI(this.board);
+            this.gameUI.alert("Moves Log : [" + this.log.getLog() + "]\n");
             // always let the human player start first
-            String move = this.white instanceof HumanPlayer ? this.white.chooseMove(this.gameUI, this.board) : this.black.chooseMove(this.gameUI, this.board);
             String playerColor = this.white instanceof HumanPlayer ? "White" : "Black";
-            System.out.println(playerColor + "'s move -> " + move);
+            this.gameUI.alert(playerColor + "'s turn !");
+            String move = this.white instanceof HumanPlayer ? this.white.chooseMove(this.gameUI, this.board) : this.black.chooseMove(this.gameUI, this.board);
             String[] positions = move.split("-");
-            if(!this.checkMove(positions[0], positions[1])) { this.gameUI.alert("Invalid Move."); }
-            else { 
-                this.gameUI.alert("Moving Piece to destination ..."); 
-                Piece destP = this.board.movePiece(positions[0], positions[1]);
-                if(destP != null) {
-                    destP.setState(2);
+            if(!this.checkMove(positions[0], positions[1])) { 
+                while(!this.checkMove(positions[0], positions[1])) {
+                    this.gameUI.alert("Invalid Move.");  
+                    this.gameUI.alert("Please, choose a valid move ...");
+                    move = this.white instanceof HumanPlayer ? this.white.chooseMove(this.gameUI, this.board) : this.black.chooseMove(this.gameUI, this.board);
+                    positions = move.split("-");
                 }
             }
-            this.gameUI.drawUI(this.board);
-            move = this.white instanceof HumanPlayer ? this.black.chooseMove(this.gameUI, this.board) : this.white.chooseMove(this.gameUI, this.board);
-            playerColor = this.white instanceof HumanPlayer ? "Black" : "White";
             System.out.println(playerColor + "'s move -> " + move);
+            this.gameUI.alert("Moving Piece to destination ..."); 
+            Piece destP = this.board.movePiece(positions[0], positions[1]);
+            if(destP != null) {
+                destP.setState(2);
+            }
+            this.log.update(move);
+            this.gameUI.drawUI(this.board);
+            this.gameUI.alert("Moves Log : [" + this.log.getLog() + "]\n");
+            playerColor = this.white instanceof HumanPlayer ? "Black" : "White";
+            this.gameUI.alert(playerColor + "'s turn !");
+            move = this.white instanceof HumanPlayer ? this.black.chooseMove(this.gameUI, this.board) : this.white.chooseMove(this.gameUI, this.board);
             positions = move.split("-");
-            if(!this.checkMove(positions[0], positions[1])) { this.gameUI.alert("Invalid Move."); }
-            else { 
-                this.gameUI.alert("Moving Piece to destination ..."); 
-                Piece destP = this.board.movePiece(positions[0], positions[1]);
-                if(destP != null) {
-                    destP.setState(2);
+            if(!this.checkMove(positions[0], positions[1])) { 
+                while(!this.checkMove(positions[0], positions[1])) {
+                    this.gameUI.alert("Invalid Move.");  
+                    this.gameUI.alert("Please, choose a valid move ...");
+                    move = this.white instanceof HumanPlayer ? this.white.chooseMove(this.gameUI, this.board) : this.black.chooseMove(this.gameUI, this.board);
+                    positions = move.split("-");
+                }
+            } 
+            System.out.println(playerColor + "'s move -> " + move);
+            this.gameUI.alert("Moving Piece to destination ..."); 
+            destP = this.board.movePiece(positions[0], positions[1]);
+            if(destP != null) {
+                destP.setState(2);
+            }
+            this.log.update(move);
+            this.gameState = !(isWhiteCheckMate() || isBlackCheckMate());
+            if(!this.gameState) { // if someone's checkmate
+                this.gameUI.drawUI(this.board);
+                this.gameUI.alert("Checkmate !");
+                this.winnerColor = !isWhiteCheckMate();
+                this.gameUI.alert((this.winnerColor ? "White " : "Black ") + "won !");
+            } else {
+                int choice = this.gameUI.askInt("Please, enter 1 to continue, 2 to save and quit,  or 3 to abandon : ");
+                if(!(choice >= 1 && choice <= 3)) {
+                    while(!(choice >= 1 && choice <= 3)) {
+                        this.gameUI.alert("Invalid choice.");
+                        choice = this.gameUI.askInt("Please, enter 1 to continue, 2 to save and quit,  or 3 to abandon : ");
+                    }
+                }
+                switch(choice) {
+                    case 2 :
+                        onQuit = 1;
+                        this.gameState = false;
+                        break;
+                    case 3 :
+                        onQuit = 0;
+                        this.gameState = false;
+                        break;
+                    default :    
+                        onQuit = 0;
+                        break;
                 }
             }
-            this.gameState = !(isWhiteCheckMate() || isBlackCheckMate());
         }
-        this.gameUI.drawUI(this.board);
-        this.gameUI.alert("Checkmate !");
-        this.winnerColor = !isWhiteCheckMate();
-        this.gameUI.alert((this.winnerColor ? "White " : "Black ") + "won !");
-        return 0;
+        return onQuit;
     }
 
     private boolean isBlackCheckMate() { 
@@ -272,6 +335,10 @@ public class ChessGame {
             }
         } 
         return false;
+    }
+
+    public String toFile() {
+        return "mode=" + this.mode + "\n";
     }
 
 }

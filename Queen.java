@@ -196,6 +196,6 @@ public class Queen extends Piece {
 
     @Override
     public String toString() {
-        return "Queen[state=" + this.getState() + ", position=" + this.getPosition() + "]";
+        return "Queen[color= " + this.getColor() + ", state=" + this.getState() + ", position=" + this.getPosition() + "]";
     }
 }

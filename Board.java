@@ -116,6 +116,14 @@ public class Board {
         return null; // return null if any of the if conditions aren't true
     }
 
+    public String toFile() {
+        String state = "";
+        for(Cell c : this.cells) {
+            state += c.toFile() + "\n";
+        }
+        return state;
+    }
+
     // utility
 
     private int calcIndexFromPosition(String pos) {
